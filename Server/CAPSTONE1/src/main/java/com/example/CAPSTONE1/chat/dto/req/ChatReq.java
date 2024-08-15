@@ -10,7 +10,7 @@ public class ChatReq {
     public static class ChattingReq{
         private Long senderId;
         private String content;
-
+        private String senderEmail;
     }
 
 }
