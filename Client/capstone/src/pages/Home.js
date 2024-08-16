@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import GoogleLoginButton from './GoogleLoginButton';
+import GoogleLoginButton from '../components/GoogleLoginButton';
 
 function Home() {
   return (

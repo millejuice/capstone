@@ -1,17 +1,21 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from 'jwt-decode';
 
 const GoogleLoginButton = () => {
-    const clientId = '941001632953-ja7dpvnsusm7r287su9top3otp939dla.apps.googleusercontent.com';
+    const clientId = '126282479173-9ua9tv82hou647tmdi67j1hgipdm821n.apps.googleusercontent.com';
     const navigate = useNavigate();
 
-    const handleLoginSuccess = (response) => {
-        const userEmail = response.profileObj.email; // 사용자 이메일 추출
-        console.log(response);
-
+    const handleLoginSuccess = (credentialResponse) => {
+        const decodedToken = jwtDecode(credentialResponse.credential);
+        console.log("Decoded Token:", decodedToken); // Log the entire token
+    
+        const userEmail = decodedToken.email;
+        const name = decodedToken.name;
+        console.log("Extracted Email:", userEmail);
         // 로그인 성공 후 이메일을 Chat 컴포넌트로 전달
-        navigate('/chat', { state: { email: userEmail } });
+        navigate('/chat', { state: { email: userEmail,name:name } });
     };
 
     const handleLoginFailure = (error) => {
