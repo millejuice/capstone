@@ -20,7 +20,9 @@ public class User {
 
     private String name;
 
-    public static User of(String name){
-        return new User(null,name);
+    private String email;
+
+    public static User of(String name,String email){
+        return new User(null,name,email);
     }
 }

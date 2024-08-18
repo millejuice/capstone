@@ -21,19 +21,18 @@ import java.util.List;
 public class ChatController {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final ChatService chatService;
-    private final ChatRoomRepo chatRoomRepo;
 
     @MessageMapping("/{chatRoomId}") //여기로 전송되면 메서드 호출 클라이언트에서는 /pub/{chatRoomId}로 요청
-    @SendTo("/sub/{chatRoomId}") // /sub/{chatRoomId}를 구독한 모든곳에 메세지 전달. broker에서 적용한거 앞에 붙여줘야 함
+   // @SendTo("/sub/{chatRoomId}") // /sub/{chatRoomId}를 구독한 모든곳에 메세지 전달. broker에서 적용한거 앞에 붙여줘야 함
     public void chat(@DestinationVariable("chatRoomId") Long chatRoomId, ChatReq.ChattingReq req){
         chatService.createChat(chatRoomId, req);
-
+        simpMessagingTemplate.convertAndSend("/sub/" + chatRoomId, req);
     }
 
     @GetMapping("/chat/{roomId}")
     public ResponseEntity<List<Chat>> getMessages(@PathVariable Long roomId){
-        Chat test = new Chat(chatRoomRepo.findById(roomId).get(),  "test sender","test content");
-        return ResponseEntity.ok().body(List.of(test));
+        List<Chat> res = chatService.findAllChatByRoomId(roomId);
+        return ResponseEntity.ok().body(res);
     }
 
 

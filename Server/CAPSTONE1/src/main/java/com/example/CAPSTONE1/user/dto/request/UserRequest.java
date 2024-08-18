@@ -10,5 +10,6 @@ public class UserRequest {
     @AllArgsConstructor
     public static class CreateUserRequest{
         private String name;
+        private String  email;
     }
 }

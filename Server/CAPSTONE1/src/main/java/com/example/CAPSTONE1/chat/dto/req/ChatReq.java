@@ -9,7 +9,7 @@ public class ChatReq {
     @AllArgsConstructor(access = AccessLevel.PROTECTED)
     public static class ChattingReq{
         private Long senderId;
-        private String content;
+        private String message;
         private String senderEmail;
     }
 
