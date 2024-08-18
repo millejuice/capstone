@@ -8,6 +8,7 @@ import com.example.CAPSTONE1.chatRoom.repo.ChatRoomRepo;
 import com.example.CAPSTONE1.user.entity.User;
 import com.example.CAPSTONE1.user.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -15,19 +16,26 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ChatService {
     private final ChatRepo chatRepo;
     private final ChatRoomRepo chatRoomRepo;
     private final UserRepo userRepo;
 
-    public Chat createChat(Long roomId, ChatReq.ChattingReq req){
-        ChatRoom chatRoom = chatRoomRepo.findById(roomId).orElseThrow(IllegalArgumentException::new);
-        User u = userRepo.findById(req.getSenderId()).orElseThrow(IllegalAccessError::new);
-        return chatRepo.save(Chat.createChat(chatRoom, u.getName(), req.getSenderEmail(), req.getContent()));
+    public Chat createChat(Long roomId, ChatReq.ChattingReq req) {
+
+        ChatRoom chatRoom = chatRoomRepo.findById(roomId).orElseThrow(() -> {
+            return new IllegalArgumentException("ChatRoom not found");
+        });
+
+        User u = userRepo.findByEmail(req.getSenderEmail());
+
+        return chatRepo.save(Chat.createChat(chatRoom, u.getName(), req.getSenderEmail(), req.getMessage()));
     }
 
+
     public List<Chat> findAllChatByRoomId(Long roomId){
-        return chatRepo.findAllById(roomId);
+        return chatRepo.findAllByRoomId(roomId);
     }
 
 }

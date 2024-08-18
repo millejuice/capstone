@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Stomp } from '@stomp/stompjs';
 import '../styles/Chat.css';
@@ -10,8 +10,8 @@ function Chat() {
   const [connected, setConnected] = useState(false);
   const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
-  const [chatList, setChatList] = useState([]);
-  
+  const isConnectedRef = useRef(false); // Track if already connected
+
   const roomId = 1; 
   const sender = location.state?.name || "테스트유저"; 
   const senderEmail = location.state?.email || "user@example.com"; 
@@ -21,41 +21,52 @@ function Chat() {
         try {
             const response = await axios.get(`http://localhost:8080/chat/${roomId}`);
             console.log('Chat List:', response.data);
-            setChatList(response.data);
-            loadChat(response.data); // Load chat immediately after fetching
+            const chatData = response.data.map((chat) => ({
+                type: chat.senderEmail === senderEmail ? 'own' : 'other',
+                message: chat.message,
+                sender: chat.sender,
+            }));
+            setMessages(chatData);
         } catch (error) {
             console.error('Error fetching the chat list:', error);
         }
     };
 
     fetchChatList();
-}, [roomId]);
 
-const connect = () => {
-  const socket = new WebSocket("ws://localhost:8080/capstone");
-  const stomp = Stomp.over(socket);
+    // Only connect if not already connected
+    if (!isConnectedRef.current) {
+        connect(); // Connect to WebSocket if not connected
+        isConnectedRef.current = true; // Mark as connected
+    }
 
-  stomp.connect({}, (frame) => {
-      setConnected(true);
-      console.log('Connected: ' + frame);
+    return () => {
+      disconnect(); // Disconnect when the component unmounts
+    };
+  }, [roomId]); // Only re-run the effect when roomId changes
 
-      stomp.subscribe(`/sub/${roomId}`, (chatMessage) => {
-          showChat(JSON.parse(chatMessage.body)); 
-      });
+  const connect = () => {
+    const socket = new WebSocket("ws://localhost:8080/capstone");
+    const stomp = Stomp.over(socket);
 
-      loadChat(chatList);
-  });
+    stomp.connect({}, (frame) => {
+        setConnected(true);
+        console.log('Connected: ' + frame);
 
-  setStompClient(stomp);
-};
+        stomp.subscribe(`/sub/${roomId}`, (chatMessage) => {
+            showChat(JSON.parse(chatMessage.body)); // Update the UI when a message is received
+        });
+    });
 
+    setStompClient(stomp);
+  };
 
   const disconnect = () => {
     if (stompClient !== null) {
       stompClient.disconnect();
+      console.log('Disconnected');
     }
     setConnected(false);
-    console.log('Disconnected');
   };
 
   const sendChat = () => {
@@ -67,10 +78,8 @@ const connect = () => {
             senderEmail: senderEmail,
         });
 
-        // Send the message through the WebSocket
         stompClient.send(url, {}, messageBody);
 
-        // Immediately update the UI with the new message
         showChat({
             sender: sender,
             senderEmail: senderEmail,
@@ -80,22 +89,6 @@ const connect = () => {
         console.log('Sent: ' + inputValue);
         setInputValue(''); // Clear the input field
     }
-};
-
-  
-
-  const loadChat = (chatList) => {
-    if (chatList !== null) {
-      const newMessages = chatList.map((chat) => {
-        if (chat.senderEmail === senderEmail) {
-          return { type: 'own', message: chat.message, sender: chat.sender };
-        } else {
-          return { type: 'other', sender: chat.sender, message: chat.message };
-        }
-      });
-      setMessages(newMessages);
-    }
-    scrollToBottom();
   };
 
   const showChat = (chatMessage) => {
@@ -104,26 +97,16 @@ const connect = () => {
         sender: chatMessage.sender,
         message: chatMessage.message,
     };
-
-    // Update the messages state to include the new message
     setMessages((prevMessages) => [...prevMessages, newMessage]);
+    scrollToBottom(); 
+  };
 
-    scrollToBottom(); // Ensure the chat scrolls to show the latest message
-};
-
-
-const scrollToBottom = () => {
-  const chatContainer = document.querySelector('.chat-container');
-  if (chatContainer) {
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-  }
-};
-
-
-  useEffect(() => {
-    connect();
-    return () => disconnect();
-  }, []);
+  const scrollToBottom = () => {
+    const chatContainer = document.querySelector('.chat-container');
+    if (chatContainer) {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+  };
 
   return (
     <div id="conversation" style={{ display: connected ? 'block' : 'none' }}>
@@ -151,8 +134,7 @@ const scrollToBottom = () => {
             </button>
         </div>
     </div>
-);
-
+  );
 }
 
 export default Chat;
