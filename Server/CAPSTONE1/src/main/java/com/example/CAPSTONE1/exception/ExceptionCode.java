@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ExceptionCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND,"No user information exists for that ID value."),
-    CHATROOM_NOT_FOUND(HttpStatus.NOT_FOUND, "No ChatRoom exists for that ID value");
+    CHATROOM_NOT_FOUND(HttpStatus.NOT_FOUND, "No ChatRoom exists for that ID value"),
+    INVALID_TOKEN_EXCEPTION(HttpStatus.UNAUTHORIZED, "This Services need Login");
 
     private final HttpStatus httpStatus;
     private final String message;
