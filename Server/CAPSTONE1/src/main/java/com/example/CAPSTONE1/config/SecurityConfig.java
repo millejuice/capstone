@@ -32,7 +32,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(au -> au.anyRequest().permitAll());
         http.oauth2Login(
                 oauth -> oauth.loginPage("http://localhost:3000/")
-                        .defaultSuccessUrl("http://localhost:3000/chat", true)
+//                        .defaultSuccessUrl("http://localhost:3000/chat", true)
                         .userInfoEndpoint(userInfo -> userInfo.userService(customOauth2UserService))
                         .successHandler(oauth2SuccessHandler)
         );

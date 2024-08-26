@@ -7,6 +7,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.ResponseCache;
+import java.time.Duration;
 import java.util.Optional;
 
 @Component
@@ -45,7 +49,24 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
                 .queryParam("token", token)
                 .build().toUriString();
 
-        RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-        redirectStrategy.sendRedirect(request,response,targetUrl);
+        /**
+         * domain : 특정 도메인에서만
+         * httpOnly : 브라우저에서 쿠키 접근 막음
+         * secure : https로만 접근하냐?
+         * sameSite : 서드파티요청에 쿠키를 전달할지 설정
+         */
+        ResponseCookie responseCookie = ResponseCookie.from("Capstone",token)
+                .domain("localhost")
+                .path("/")
+                .httpOnly(true)
+                .secure(false)
+                .maxAge(Duration.ofDays(30))
+                .sameSite("Strict")
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, responseCookie.toString());
+
+        // Redirect to the chat page
+        response.sendRedirect("http://localhost:3000/chat");
     }
 }
