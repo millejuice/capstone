@@ -33,7 +33,7 @@ public class TokenProvider {
     @Value("${jwt.expiration_time}")
     private String expiredTime;
 
-    public String createToken(String email,Member member ) {
+    public String createToken(String email,ROLE member ) {
         Date now = new Date();
         long expiredT = Long.parseLong(expiredTime);
         Date expiredDay = new Date(now.getTime() + expiredT);
@@ -51,19 +51,19 @@ public class TokenProvider {
 
     }
 
-    public String getSecretKey(Member member){
-        if(Member.isNormal(member)) return Base64.getEncoder().encodeToString(normalSecretKey.getBytes());
+    public String getSecretKey(ROLE member){
+        if(ROLE.isNormal(member)) return Base64.getEncoder().encodeToString(normalSecretKey.getBytes());
         return Base64.getEncoder().encodeToString(managerSecretKey.getBytes());
     }
 
     public boolean validateBothToken(String token){
 
         try{
-            validateToken(token, Member.NORMAL);
+            validateToken(token, ROLE.NORMAL);
             return true;
         } catch (CommonException | JwtException | IllegalArgumentException e){
             try{
-                validateToken(token, Member.MANAGER);
+                validateToken(token, ROLE.MANAGER);
                 return true;
             } catch (JwtException | IllegalArgumentException e2){
                 return false;
@@ -71,7 +71,7 @@ public class TokenProvider {
         }
     }
 
-    public void validateToken(String token, Member member) {
+    public void validateToken(String token, ROLE member) {
         try {
             JwtParser jwtParser = getJwtParser(member);
             jwtParser.parseClaimsJws(token);
@@ -80,19 +80,19 @@ public class TokenProvider {
         }
     }
 
-    public String getPayLoad(String token, Member member) {
+    public String getPayLoad(String token, ROLE member) {
         JwtParser jwtParser = getJwtParser(member);
         return jwtParser.parseClaimsJws(token)
                 .getBody()
                 .getSubject();
     }
 
-    private JwtParser getJwtParser(Member member) {
+    private JwtParser getJwtParser(ROLE member) {
         return Jwts.parser()
                 .setSigningKey(getSecretKey(member));
     }
 
-    public boolean isValidToken(String token, Member member) {
+    public boolean isValidToken(String token, ROLE member) {
         try {
             validateToken(token, member);
             return true;

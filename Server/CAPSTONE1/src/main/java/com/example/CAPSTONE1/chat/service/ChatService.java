@@ -10,6 +10,7 @@ import com.example.CAPSTONE1.user.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class ChatService {
     }
 
 
+//    @PreAuthorize("hasRole('NORMAL')")
     public List<Chat> findAllChatByRoomId(Long roomId){
         return chatRepo.findAllByRoomId(roomId);
     }

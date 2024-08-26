@@ -1,13 +1,13 @@
 package com.example.CAPSTONE1.auth;
 
-public enum Member {
+public enum ROLE {
     NORMAL, MANAGER;
 
-    public static boolean isNormal(Member member) {
+    public static boolean isNormal(ROLE member) {
         return member.equals(NORMAL);
     }
 
-    public static boolean isManager(Member member) {
+    public static boolean isManager(ROLE member) {
         return member.equals(MANAGER);
     }
 

@@ -1,6 +1,7 @@
 package com.example.CAPSTONE1.user.entity;
 
-import com.example.CAPSTONE1.auth.Member;
+import com.example.CAPSTONE1.auth.ROLE;
+import com.example.CAPSTONE1.auth.ROLE;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,9 +22,9 @@ public class User {
 
     private String email;
 
-    private Member member;
+    private ROLE member;
 
     public static User of(String name,String email){
-        return new User(null,name,email,Member.NORMAL);
+        return new User(null,name,email,ROLE.NORMAL);
     }
 }
