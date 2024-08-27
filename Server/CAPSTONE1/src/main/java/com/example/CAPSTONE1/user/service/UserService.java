@@ -16,7 +16,7 @@ public class UserService {
     private final UserRepo userRepo;
 
     public void createUser(UserRequest.CreateUserRequest req){
-        userRepo.save(User.of(req.getName(),req.getEmail()));
+        userRepo.save(User.of(req));
     }
 
     public User readUser(Long userId){

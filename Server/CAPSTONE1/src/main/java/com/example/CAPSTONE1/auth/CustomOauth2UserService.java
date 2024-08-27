@@ -1,5 +1,6 @@
 package com.example.CAPSTONE1.auth;
 
+import com.example.CAPSTONE1.user.dto.request.UserRequest;
 import com.example.CAPSTONE1.user.entity.User;
 import com.example.CAPSTONE1.user.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 
 @Service
@@ -34,10 +37,10 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
         String email = attributes.getAttribute("email");
         User user = userRepo.findByEmail(email);
         if(user==null){
-            User u = User.of(attributes.getAttribute("name"), email);
+            User u = User.of(new UserRequest.CreateUserRequest(attributes.getAttribute("name"),email,null));
             userRepo.save(u);
         } else {
-            User u = new User(user.getId(), attributes.getAttribute("name"), email, user.getMember() == null ? ROLE.NORMAL : user.getMember() );
+            User u = new User(user.getId(), attributes.getAttribute("name"), email, user.getMember() == null ? ROLE.NORMAL : user.getMember(), user.getNickname(), LocalDateTime.now());
             userRepo.save(u);
         }
     }
