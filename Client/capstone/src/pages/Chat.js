@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Stomp } from '@stomp/stompjs';
 import '../styles/Chat.css';
 import axios from 'axios';
+import Cookies from 'js-cookie'; 
 
 function Chat() {
   const location = useLocation();
@@ -15,11 +16,18 @@ function Chat() {
   const roomId = 1; 
   const sender = location.state?.name || "테스트유저"; 
   const senderEmail = location.state?.email || "user@example.com"; 
+  const token = Cookies.get('Capstone');
+
 
   useEffect(() => {
     const fetchChatList = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/chat/${roomId}`);
+          //   const response = await axios.get(`http://localhost:8080/chat/${roomId}`, {
+          //     headers: {
+          //         'Authorization': `Bearer ${token}`, 
+          //     },
+          // });
             console.log('Chat List:', response.data);
             const chatData = response.data.map((chat) => ({
                 type: chat.senderEmail === senderEmail ? 'own' : 'other',
