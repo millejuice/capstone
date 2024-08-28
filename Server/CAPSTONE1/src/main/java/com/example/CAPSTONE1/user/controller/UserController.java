@@ -1,5 +1,7 @@
 package com.example.CAPSTONE1.user.controller;
 
+import com.example.CAPSTONE1.auth.required.RequiredManagerLogin;
+import com.example.CAPSTONE1.auth.required.RequiredNormalLogin;
 import com.example.CAPSTONE1.user.dto.request.UserRequest;
 import com.example.CAPSTONE1.user.entity.User;
 import com.example.CAPSTONE1.user.service.UserService;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
+    @RequiredManagerLogin
     @PostMapping("")
     public void createUser(@RequestBody UserRequest.CreateUserRequest req){
         userService.createUser(req);

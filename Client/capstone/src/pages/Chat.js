@@ -18,6 +18,32 @@ function Chat() {
   const senderEmail = location.state?.email || "user@example.com"; 
   const token = Cookies.get('Capstone');
 
+  const handleButtonClick = () => {
+    // Replace with your backend API endpoint
+    const apiUrl = 'http://localhost:8080/api/user'; 
+  
+    // Set the Authorization token
+    const token = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwb3RndXNkYXZ5QGdtYWlsLmNvbSJ9.XVi_hQzB1wymp2YBHV4Pvx4ZiU4Tu-LxoClZkSMWUKk';
+  
+    axios.post(apiUrl, {
+      name: 'test user',
+      email: 'test@test.com'
+    }, {
+      headers: {
+        'Authorization': token // Use Authorization header
+      }
+    })
+    .then(response => {
+      // Handle success
+      console.log('User created:', response.data);
+    })
+    .catch(error => {
+      // Handle error
+      console.error('There was an error creating the user!', error);
+    });
+  };
+  
+
 
   useEffect(() => {
     const fetchChatList = async () => {
@@ -140,6 +166,9 @@ function Chat() {
             <button onClick={connected ? disconnect : connect}>
                 {connected ? 'Disconnect' : 'Connect'}
             </button>
+            <button onClick={handleButtonClick}>
+      Create User
+    </button>
         </div>
     </div>
   );

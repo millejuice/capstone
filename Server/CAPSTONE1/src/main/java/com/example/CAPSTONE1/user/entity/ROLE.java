@@ -1,4 +1,4 @@
-package com.example.CAPSTONE1.auth;
+package com.example.CAPSTONE1.user.entity;
 
 public enum ROLE {
     NORMAL, MANAGER;

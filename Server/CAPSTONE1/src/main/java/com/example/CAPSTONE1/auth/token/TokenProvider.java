@@ -1,12 +1,12 @@
-package com.example.CAPSTONE1.auth;
+package com.example.CAPSTONE1.auth.token;
 
+import com.example.CAPSTONE1.user.entity.ROLE;
 import com.example.CAPSTONE1.exception.CommonException;
 import com.example.CAPSTONE1.exception.ExceptionCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,7 +33,7 @@ public class TokenProvider {
     @Value("${jwt.expiration_time}")
     private String expiredTime;
 
-    public String createToken(String email,ROLE member ) {
+    public String createToken(String email, ROLE member ) {
         Date now = new Date();
         long expiredT = Long.parseLong(expiredTime);
         Date expiredDay = new Date(now.getTime() + expiredT);
