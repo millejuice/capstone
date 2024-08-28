@@ -1,6 +1,5 @@
 package com.example.CAPSTONE1.user.entity;
 
-import com.example.CAPSTONE1.auth.ROLE;
 import com.example.CAPSTONE1.user.dto.request.UserRequest;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Entity;

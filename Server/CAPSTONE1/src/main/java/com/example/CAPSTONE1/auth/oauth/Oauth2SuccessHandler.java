@@ -1,5 +1,6 @@
-package com.example.CAPSTONE1.auth;
+package com.example.CAPSTONE1.auth.oauth;
 
+import com.example.CAPSTONE1.auth.token.TokenProvider;
 import com.example.CAPSTONE1.user.entity.User;
 import com.example.CAPSTONE1.user.repo.UserRepo;
 import jakarta.servlet.FilterChain;
@@ -11,16 +12,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
-import java.net.ResponseCache;
 import java.time.Duration;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor

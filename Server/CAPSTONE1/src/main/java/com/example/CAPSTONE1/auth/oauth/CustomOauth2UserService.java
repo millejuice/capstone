@@ -1,6 +1,7 @@
-package com.example.CAPSTONE1.auth;
+package com.example.CAPSTONE1.auth.oauth;
 
 import com.example.CAPSTONE1.user.dto.request.UserRequest;
+import com.example.CAPSTONE1.user.entity.ROLE;
 import com.example.CAPSTONE1.user.entity.User;
 import com.example.CAPSTONE1.user.repo.UserRepo;
 import lombok.RequiredArgsConstructor;

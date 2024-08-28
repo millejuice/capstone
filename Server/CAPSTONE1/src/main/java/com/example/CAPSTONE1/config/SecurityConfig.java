@@ -1,7 +1,7 @@
 package com.example.CAPSTONE1.config;
 
-import com.example.CAPSTONE1.auth.CustomOauth2UserService;
-import com.example.CAPSTONE1.auth.Oauth2SuccessHandler;
+import com.example.CAPSTONE1.auth.oauth.CustomOauth2UserService;
+import com.example.CAPSTONE1.auth.oauth.Oauth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
