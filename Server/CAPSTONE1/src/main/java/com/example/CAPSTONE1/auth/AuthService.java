@@ -57,6 +57,7 @@ public class AuthService {
         if(!tokenProvider.isValidToken(token,ROLE.MANAGER)){
             throw new CommonException(ExceptionCode.UNAUTHORIZED_MANAGER_TOKEN);
         }
+//        payLoad에는 user의 id, ROLE이 들어있음
         String payLoad = tokenProvider.getPayLoad(token, ROLE.MANAGER);
         if(payLoad.isEmpty()){
             throw new CommonException(ExceptionCode.EMPTY_PAYLOAD_IN_TOKEN);
