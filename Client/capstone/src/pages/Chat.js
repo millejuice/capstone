@@ -20,10 +20,10 @@ function Chat() {
 
   const handleButtonClick = () => {
     // Replace with your backend API endpoint
-    const apiUrl = 'http://localhost:8080/api/user'; 
+    const apiUrl = 'http://localhost:8080/user'; 
   
     // Set the Authorization token
-    const token = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwb3RndXNkYXZ5QGdtYWlsLmNvbSJ9.XVi_hQzB1wymp2YBHV4Pvx4ZiU4Tu-LxoClZkSMWUKk';
+    const token = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0.fgGGLr6k5WoCk3NcA2ItPuBJRlSeJJEtZyvMoN5IFSY';
   
     axios.post(apiUrl, {
       name: 'test user',
