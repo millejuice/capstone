@@ -4,6 +4,7 @@ import com.example.CAPSTONE1.user.entity.ROLE;
 import com.example.CAPSTONE1.exception.CommonException;
 import com.example.CAPSTONE1.exception.ExceptionCode;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +12,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Base64;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -33,28 +37,34 @@ public class TokenProvider {
     @Value("${jwt.expiration_time}")
     private String expiredTime;
 
-    public String createToken(String email, ROLE member ) {
+    public String createToken(String payLoad, ROLE member ) {
         Date now = new Date();
         long expiredT = Long.parseLong(expiredTime);
         Date expiredDay = new Date(now.getTime() + expiredT);
-        Claims claims = Jwts.claims().setSubject(email);
+        Claims claims = Jwts.claims().setSubject(payLoad); //user의 id로 claim 만듦
 
-        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+//        Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(getSecretKey(member)));
 
         return Jwts.builder()
                 .setIssuedAt(now)
                 .setIssuer("Capstone")
                 .setExpiration(expiredDay)
                 .setClaims(claims)
-                .signWith(key)
+                .signWith(getSecretKey(member),SignatureAlgorithm.HS256)
                 .compact();
 
     }
 
-    public String getSecretKey(ROLE member){
-        if(ROLE.isNormal(member)) return Base64.getEncoder().encodeToString(normalSecretKey.getBytes());
-        return Base64.getEncoder().encodeToString(managerSecretKey.getBytes());
+    public SecretKey getSecretKey(ROLE member) {
+        byte[] keyBytes;
+        if (ROLE.isNormal(member)) {
+            keyBytes = Arrays.copyOf(normalSecretKey.getBytes(StandardCharsets.UTF_8), 32);
+        } else {
+            keyBytes = Arrays.copyOf(managerSecretKey.getBytes(StandardCharsets.UTF_8), 32);
+        }
+        return new SecretKeySpec(keyBytes, "HmacSHA256");
     }
+
 
     public boolean validateBothToken(String token){
 

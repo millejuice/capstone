@@ -39,12 +39,9 @@ public class Oauth2SuccessHandler implements AuthenticationSuccessHandler {
         String name = oAuth2User.getAttribute("name");
 
         User u = userRepo.findByEmail(email);
-//        유저의 email로 role 찾은 후, token 생성
-        String token = tokenProvider.createToken(email, u.getMember());
-
-        String targetUrl = UriComponentsBuilder.fromUriString("/")
-                .queryParam("token", token)
-                .build().toUriString();
+        System.out.println(u.getId());
+//        유저의 id, role로 token 생성
+        String token = tokenProvider.createToken(String.valueOf(u.getId()), u.getMember());
 
         /**
          * domain : 특정 도메인에서만
