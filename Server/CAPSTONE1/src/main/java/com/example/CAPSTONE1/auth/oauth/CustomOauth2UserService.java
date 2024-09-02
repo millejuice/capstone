@@ -41,7 +41,7 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
             User u = User.of(new UserRequest.CreateUserRequest(attributes.getAttribute("name"),email,null));
             userRepo.save(u);
         } else {
-            User u = new User(user.getId(), attributes.getAttribute("name"), email, user.getMember() == null ? ROLE.NORMAL : user.getMember(), user.getNickname(), LocalDateTime.now());
+            User u = new User(user.getId(), attributes.getAttribute("name"), email, user.getMember() == null ? ROLE.NORMAL : user.getMember(), user.getNickname(),LocalDateTime.now());
             userRepo.save(u);
         }
     }

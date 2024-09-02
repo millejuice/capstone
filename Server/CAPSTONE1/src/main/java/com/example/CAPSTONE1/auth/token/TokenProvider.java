@@ -1,11 +1,9 @@
 package com.example.CAPSTONE1.auth.token;
 
 import com.example.CAPSTONE1.user.entity.ROLE;
-import com.example.CAPSTONE1.exception.CommonException;
-import com.example.CAPSTONE1.exception.ExceptionCode;
+import com.example.CAPSTONE1.common.exception.CommonException;
+import com.example.CAPSTONE1.common.exception.ExceptionCode;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
 import java.util.Arrays;
 import java.util.Date;
 

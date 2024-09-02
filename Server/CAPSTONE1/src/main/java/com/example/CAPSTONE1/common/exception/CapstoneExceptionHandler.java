@@ -1,4 +1,4 @@
-package com.example.CAPSTONE1.exception;
+package com.example.CAPSTONE1.common.exception;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
