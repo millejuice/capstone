@@ -29,7 +29,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
 
-            // 특정 애노테이션이 있는지 확인
+            // 특정 어노테이션이 있는지 확인
             if (!(hasAnnotation(handlerMethod))) {
                 return true;
             }
@@ -37,7 +37,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             // 토큰 추출
             String token = AuthorizationExtractor.extractAccessToken(request);
 
-            // 애노테이션에 따라 토큰 검증
+            // 어노테이션에 따라 토큰 검증
             if (handlerMethod.hasMethodAnnotation(RequiredNormalLogin.class)) {
                 tokenProvider.validateBothToken(token);
             } else if (handlerMethod.hasMethodAnnotation(RequiredManagerLogin.class)) {

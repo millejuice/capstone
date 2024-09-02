@@ -1,14 +1,12 @@
 package com.example.CAPSTONE1.user.service;
 
-import com.example.CAPSTONE1.exception.CommonException;
-import com.example.CAPSTONE1.exception.ExceptionCode;
+import com.example.CAPSTONE1.common.exception.CommonException;
+import com.example.CAPSTONE1.common.exception.ExceptionCode;
 import com.example.CAPSTONE1.user.dto.request.UserRequest;
 import com.example.CAPSTONE1.user.entity.User;
 import com.example.CAPSTONE1.user.repo.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

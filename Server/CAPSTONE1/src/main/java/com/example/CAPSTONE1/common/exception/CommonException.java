@@ -1,4 +1,4 @@
-package com.example.CAPSTONE1.exception;
+package com.example.CAPSTONE1.common.exception;
 
 import lombok.Builder;
 import lombok.Getter;

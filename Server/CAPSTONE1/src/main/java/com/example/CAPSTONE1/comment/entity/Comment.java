@@ -1,5 +1,6 @@
 package com.example.CAPSTONE1.comment.entity;
 
+import com.example.CAPSTONE1.community.entity.Community;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,4 +17,7 @@ public class Comment {
 
     @Column(length = 10000)
     private String content;
+
+    @ManyToOne(targetEntity = Community.class, fetch = FetchType.EAGER)
+    private Community community;
 }

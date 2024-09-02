@@ -1,8 +1,8 @@
 package com.example.CAPSTONE1.auth;
 
 import com.example.CAPSTONE1.auth.token.TokenProvider;
-import com.example.CAPSTONE1.exception.CommonException;
-import com.example.CAPSTONE1.exception.ExceptionCode;
+import com.example.CAPSTONE1.common.exception.CommonException;
+import com.example.CAPSTONE1.common.exception.ExceptionCode;
 import com.example.CAPSTONE1.user.entity.ROLE;
 import com.example.CAPSTONE1.user.entity.User;
 import com.example.CAPSTONE1.user.repo.UserRepo;
