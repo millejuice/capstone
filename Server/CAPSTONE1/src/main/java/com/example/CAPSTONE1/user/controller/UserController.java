@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @RequiredManagerLogin
     @PostMapping("")
     public void createUser(@RequestBody UserRequest.CreateUserRequest req){
         userService.createUser(req);

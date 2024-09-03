@@ -2,6 +2,7 @@ package com.example.CAPSTONE1.community.service;
 
 import com.example.CAPSTONE1.common.exception.CommonException;
 import com.example.CAPSTONE1.common.exception.ExceptionCode;
+import com.example.CAPSTONE1.common.pagination.PaginationRequest;
 import com.example.CAPSTONE1.community.dto.request.CommunityRequest;
 import com.example.CAPSTONE1.community.dto.response.CommunityResponse;
 import com.example.CAPSTONE1.community.entity.Community;
@@ -9,6 +10,10 @@ import com.example.CAPSTONE1.community.repo.CommunityRepo;
 import com.example.CAPSTONE1.user.entity.ROLE;
 import com.example.CAPSTONE1.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +48,16 @@ public class CommunityService {
         Community ret = community.get();
         ret.increaseViewCnt();
         return new CommunityResponse.ReadPostResponse().from(ret);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<CommunityResponse.ReadPostResponse> readAllPost(int page){
+        Sort sort = Sort.by(Sort.Direction.DESC,"id");
+        Pageable pageable = PageRequest.of(page, 7,sort);
+
+        Page<Community> postPages = communityRepo.findAll(pageable);
+
+        return postPages.map(post -> new CommunityResponse.ReadPostResponse().from(post));
     }
 
     @Transactional

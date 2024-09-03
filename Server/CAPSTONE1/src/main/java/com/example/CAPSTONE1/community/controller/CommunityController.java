@@ -4,12 +4,14 @@ import com.example.CAPSTONE1.auth.login.ManagerLogin;
 import com.example.CAPSTONE1.auth.login.NormalLogin;
 import com.example.CAPSTONE1.auth.required.RequiredManagerLogin;
 import com.example.CAPSTONE1.auth.required.RequiredNormalLogin;
+import com.example.CAPSTONE1.common.pagination.PaginationRequest;
 import com.example.CAPSTONE1.community.dto.request.CommunityRequest;
 import com.example.CAPSTONE1.community.dto.response.CommunityResponse;
 import com.example.CAPSTONE1.community.entity.Community;
 import com.example.CAPSTONE1.community.service.CommunityService;
 import com.example.CAPSTONE1.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +36,11 @@ public class CommunityController {
     @GetMapping("/{postId}")
     public ResponseEntity<CommunityResponse.ReadPostResponse> readPost(@PathVariable Long postId){
         return ResponseEntity.ok(communityService.readPost(postId));
+    }
+
+    @GetMapping("")
+    public ResponseEntity<Page<CommunityResponse.ReadPostResponse>> findAllPost(@RequestParam int page){
+        return ResponseEntity.ok(communityService.readAllPost(page));
     }
 
     @DeleteMapping("/{postId}")

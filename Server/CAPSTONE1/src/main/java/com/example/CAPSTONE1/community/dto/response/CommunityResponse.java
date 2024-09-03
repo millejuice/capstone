@@ -12,6 +12,7 @@ public class CommunityResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ReadPostResponse{
+        private Long id;
         private String nickname;
         private int viewCnt;
         private String title;
@@ -19,6 +20,7 @@ public class CommunityResponse {
 
         public ReadPostResponse from(Community com){
             return ReadPostResponse.builder()
+                    .id(com.getId())
                     .nickname(com.getUser().getNickname())
                     .viewCnt(com.getViewCnt())
                     .title(com.getTitle())
