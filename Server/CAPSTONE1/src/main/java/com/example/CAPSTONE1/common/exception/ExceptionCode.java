@@ -13,6 +13,7 @@ public enum ExceptionCode {
     EMPTY_PAYLOAD_IN_TOKEN(HttpStatus.NOT_FOUND, "Token's payload is empty"),
     UNAUTHORIZED_MANAGER_TOKEN(HttpStatus.UNAUTHORIZED, "This User's Role is not MANAGER"),
     USER_ID_NOT_EQUAL(HttpStatus.UNAUTHORIZED, "작성한 유저가 아닙니다"),
+    NO_AUTHORIZATION_OF_DELETING_POST(HttpStatus.UNAUTHORIZED, "해당 게시물을 삭제할 권한이 없습니다"),
     POST_NOT_EXIST_IN_COMMUNITY(HttpStatus.NOT_FOUND, "해당 게시물이 존재하지 않습니다");
 
 

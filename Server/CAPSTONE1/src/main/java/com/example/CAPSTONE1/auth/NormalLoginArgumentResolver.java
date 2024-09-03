@@ -2,6 +2,9 @@ package com.example.CAPSTONE1.auth;
 
 import com.example.CAPSTONE1.auth.login.NormalLogin;
 import com.example.CAPSTONE1.auth.token.AuthorizationExtractor;
+import com.example.CAPSTONE1.common.exception.CommonException;
+import com.example.CAPSTONE1.common.exception.ExceptionCode;
+import com.example.CAPSTONE1.user.entity.User;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -28,6 +31,13 @@ public class NormalLoginArgumentResolver implements HandlerMethodArgumentResolve
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         String accessToken = AuthorizationExtractor
                 .extractAccessToken(Objects.requireNonNull(webRequest.getNativeRequest(HttpServletRequest.class)));
-        return authService.getLoginNormal(accessToken);
+        User user = authService.getLoginNormal(accessToken);
+        if(user == null){
+            user = authService.getLoginManager(accessToken);
+        }
+        if(user == null){
+            throw new CommonException(ExceptionCode.USER_NOT_FOUND);
+        }
+        return user;
     }
 }
