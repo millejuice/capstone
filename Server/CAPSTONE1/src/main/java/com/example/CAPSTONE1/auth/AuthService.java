@@ -77,11 +77,10 @@ public class AuthService {
 
     @Transactional(readOnly = true)
     public User getLoginNormal(String accessToken){
-        User user = findNormalUserByToken(accessToken);
-        if(!user.getMember().equals(ROLE.NORMAL)){
-            throw new CommonException(ExceptionCode.USER_NOT_FOUND);
-        }
-        return user;
+        //        if(!user.getMember().equals(ROLE.NORMAL)){
+//            throw new CommonException(ExceptionCode.USER_NOT_FOUND);
+//        }
+        return findNormalUserByToken(accessToken);
     }
 
     @Transactional(readOnly = true)

@@ -1,6 +1,8 @@
 package com.example.CAPSTONE1.community.controller;
 
+import com.example.CAPSTONE1.auth.login.ManagerLogin;
 import com.example.CAPSTONE1.auth.login.NormalLogin;
+import com.example.CAPSTONE1.auth.required.RequiredManagerLogin;
 import com.example.CAPSTONE1.auth.required.RequiredNormalLogin;
 import com.example.CAPSTONE1.community.dto.request.CommunityRequest;
 import com.example.CAPSTONE1.community.dto.response.CommunityResponse;
@@ -32,5 +34,11 @@ public class CommunityController {
     @GetMapping("/{postId}")
     public ResponseEntity<CommunityResponse.ReadPostResponse> readPost(@PathVariable Long postId){
         return ResponseEntity.ok(communityService.readPost(postId));
+    }
+
+    @DeleteMapping("/{postId}")
+    @RequiredNormalLogin
+    public void deletePost(@NormalLogin User user, @PathVariable Long postId){
+        communityService.deletePost(user,postId);
     }
 }

@@ -5,15 +5,14 @@ import com.example.CAPSTONE1.common.BaseTimeEntity;
 import com.example.CAPSTONE1.community.dto.request.CommunityRequest;
 import com.example.CAPSTONE1.user.entity.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CascadeType;
 
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
