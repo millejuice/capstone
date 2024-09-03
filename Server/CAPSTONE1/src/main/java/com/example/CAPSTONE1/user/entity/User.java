@@ -40,7 +40,7 @@ public class User {
                 .name(req.getName())
                 .email(req.getEmail())
                 .member(ROLE.NORMAL)
-                .nickname(req.getNickname())
+                .nickname(req.getNickname() == null? "": req.getNickname())
                 .lastLogin(LocalDateTime.now())
                 .build();
 //        return new User(null,req.getName(), req.getEmail(), ROLE.NORMAL, req.getNickname(), LocalDateTime.now());
