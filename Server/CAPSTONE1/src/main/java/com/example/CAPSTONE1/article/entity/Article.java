@@ -1,12 +1,10 @@
-package com.example.CAPSTONE1.community.entity;
+package com.example.CAPSTONE1.article.entity;
 
 import com.example.CAPSTONE1.comment.entity.Comment;
 import com.example.CAPSTONE1.common.BaseTimeEntity;
-import com.example.CAPSTONE1.community.dto.request.CommunityRequest;
 import com.example.CAPSTONE1.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CascadeType;
 
 import java.util.List;
 
@@ -16,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Community extends BaseTimeEntity {
+public class Article extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,8 +33,12 @@ public class Community extends BaseTimeEntity {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    public static Community from(User user,String title, String content){
-        return Community.builder()
+    @OneToMany(targetEntity = Comment.class, fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinColumn(name = "ARTICLE_ID")
+    private List<Comment> comments;
+
+    public static Article from(User user, String title, String content){
+        return Article.builder()
                 .id(null)
                 .title(title)
                 .content(content)

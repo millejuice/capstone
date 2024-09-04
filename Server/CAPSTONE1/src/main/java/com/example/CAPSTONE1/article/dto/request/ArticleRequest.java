@@ -1,16 +1,16 @@
-package com.example.CAPSTONE1.community.dto.request;
+package com.example.CAPSTONE1.article.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class CommunityRequest {
+public class ArticleRequest {
     @Getter
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class PostCreateRequest{
+    public static class ArticleCreateRequest{
         private String title;
         private String content;
     }
@@ -19,7 +19,7 @@ public class CommunityRequest {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class PostUpdateRequest{
+    public static class ArticleUpdateRequest{
         private String title;
         private String content;
     }
