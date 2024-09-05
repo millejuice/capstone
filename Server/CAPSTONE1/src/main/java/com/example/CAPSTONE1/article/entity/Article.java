@@ -25,7 +25,6 @@ public class Article extends BaseTimeEntity {
     private String content;
 
     private int viewCnt;
-    public void increaseViewCnt(){this.viewCnt++;}
 
     private int likeCnt;
 
@@ -36,6 +35,8 @@ public class Article extends BaseTimeEntity {
     @OneToMany(targetEntity = Comment.class, fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "ARTICLE_ID")
     private List<Comment> comments;
+
+    public void increaseViewCnt(){this.viewCnt++;}
 
     public static Article from(User user, String title, String content){
         return Article.builder()
