@@ -22,4 +22,8 @@ public class Heart {
     @ManyToOne(targetEntity = Article.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "ARTICLE_ID")
     private Article article;
+
+    public static Heart from(User user, Article article){
+        return new Heart(null, user, article);
+    }
 }
