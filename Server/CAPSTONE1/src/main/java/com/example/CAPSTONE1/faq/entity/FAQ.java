@@ -1,10 +1,8 @@
 package com.example.CAPSTONE1.faq.entity;
 
 import com.example.CAPSTONE1.common.BaseTimeEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.CAPSTONE1.user.entity.User;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,11 +23,16 @@ public class FAQ extends BaseTimeEntity {
     private String answerContent;
     private Boolean answered;
 
-    public static FAQ createQuestion(String title, String content){
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "USER_ID")
+    private User user;
+
+    public static FAQ createQuestion(String title, String content,User user){
         return FAQ.builder()
                 .id(null)
                 .title(title)
                 .content(content)
+                .user(user)
                 .build();
     }
 
