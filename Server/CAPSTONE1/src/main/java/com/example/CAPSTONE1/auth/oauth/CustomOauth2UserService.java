@@ -29,7 +29,10 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(oAuth2UserRequest);
         log.info("oauth에서 받아온 정보 : "+ oAuth2User.getAttributes());
 
-        saveOrUpdate(oAuth2User);
+//        provide - google, kakao
+        String provider = oAuth2UserRequest.getClientRegistration().getRegistrationId();
+        log.info("provider : {}", provider);
+            saveOrUpdate(oAuth2User);
 
         return super.loadUser(oAuth2UserRequest);
     }
@@ -44,5 +47,9 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
             User u = new User(user.getId(), attributes.getAttribute("name"), email, user.getMember() == null ? ROLE.NORMAL : user.getMember(), user.getNickname(),LocalDateTime.now());
             userRepo.save(u);
         }
+    }
+
+    private void kakaoLogin(OAuth2User attributes){
+        System.out.println(attributes.getAttributes());
     }
 }
